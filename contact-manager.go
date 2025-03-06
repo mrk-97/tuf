@@ -13,14 +13,24 @@ func AddContact(contacts *[]Contact, contact Contact) {
 }
 
 func RemoveContact(contacts *[]Contact, name string) {
-	for i := range *contacts {
+	removed := false
+
+	for i := 0; i < len(*contacts); {
 		if (*contacts)[i].Name == name {
+			// Remove the contact
 			*contacts = append((*contacts)[:i], (*contacts)[i+1:]...)
-			fmt.Printf("Removed Contact : %v\n", name)
-			return
+			removed = true
+			// Don't increment i since we need to check the new item at i
+		} else {
+			i++ // Only increment if we did not remove an item
 		}
 	}
-	fmt.Printf("Contact not found: %s\n", name)
+
+	if removed {
+		fmt.Printf("Removed all contacts with name: %s\n", name)
+	} else {
+		fmt.Printf("Contact not found: %s\n", name)
+	}
 }
 
 func PrintContacts(contacts *[]Contact) {
@@ -35,10 +45,22 @@ func PrintContacts(contacts *[]Contact) {
 }
 
 func main() {
-	contact := make([]Contact, 0)
+	contacts := make([]Contact, 0)
 
-	AddContact(&contact, Contact{Name: "Manoj Reddy", Email: "manoj.reddy@beepkart.com", Phone: "7075198583"})
-	RemoveContact(&contact, "Manoj Reddy")
-	PrintContacts(&contact)
+	// Adding multiple contacts with the same name
+	AddContact(&contacts, Contact{Name: "Manoj Reddy", Email: "manoj.reddy@beepkart.com", Phone: "7075198583"})
+	AddContact(&contacts, Contact{Name: "Manoj Reddy", Email: "manoj2.reddy@beepkart.com", Phone: "7075198584"})
 
+	// Print contacts before any removal
+	PrintContacts(&contacts)
+
+	// Remove all contacts with the name "Manoj Reddy"
+	RemoveContact(&contacts, "Manoj Reddy")
+
+	// Print remaining contacts after removal
+	PrintContacts(&contacts)
+
+	// Attempting to remove again to check behavior
+	RemoveContact(&contacts, "Manoj Reddy")
+	PrintContacts(&contacts)
 }
