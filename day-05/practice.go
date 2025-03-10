@@ -10,6 +10,16 @@ func printDiagonalNumbers(n int) {
 		fmt.Println()
 	}
 }
+
+func printDiagonalReverseStarPattern(n int) {
+	for i := 1; i <= n; i++ {
+		for j := 0; j <= n-i; j++ {
+			fmt.Print("*")
+		}
+		fmt.Println()
+	}
+}
 func main() {
-	printDiagonalNumbers(5)
+	// printDiagonalNumbers(5)
+	printDiagonalReverseStarPattern(5)
 }
